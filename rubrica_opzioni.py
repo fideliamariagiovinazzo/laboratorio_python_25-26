@@ -6,7 +6,8 @@
 # e messaggi di auguri personalizzati per le chiavi del dizionario (nomi).
 
 import sys
-import argparse
+import argparse 
+import json
 
 # Dizionario annidato contenente i dati dei contatti della rubrica
 rubrica = {
@@ -114,6 +115,13 @@ def estrai_valori_per_chiave(chiave_scelta):
             #aggiungo alla lista dei valori il valore specifico richiesto
             
     print(f"Valori per la chiave '{chiave_scelta}': {valori}")
+def scrivi_txt(rubrica_input):
+    file_rubrica = open('rubrica.txt', 'w')
+    for nome, d in rubrica_input.items():
+        riga = f"{nome}, {d['giorno']}, {d['mese']}, {d['anno']}, {d['età']}, {d['sesso']}, {d['mail']}\n"
+        file_rubrica.write(riga)
+    file_rubrica.close()
+    print("File 'rubrica.txt' generato con successo!")
 
 
 # CONFIGURAZIONE ARGPARSE 
@@ -123,6 +131,7 @@ parser.add_argument('-v', '--visualizza', action='store_true', help="Esegue il p
 parser.add_argument('-o', '--lista_ordinata', action='store_true', help="Esegue il punto 2")
 parser.add_argument('-i', '--lista_invertita', action='store_true', help="Esegue il punto 3")
 parser.add_argument('-n', '--nome', type=str, help="Esegue il punto 4 per il nome specificato")
+parser.add_argument('-t', '--testo', action='store_true', help="Genera il file rubrica.txt")
 
 # Analizza gli argomenti noti separatamente per evitare conflitti con il sys.argv del punto 5
 args_parser, unknown = parser.parse_known_args()
@@ -132,6 +141,8 @@ if args_parser.visualizza:
     visualizza_contenuto()
 elif args_parser.lista_ordinata:
     stampa_nomi_ordinati()
+elif args_parser.testo:
+    scrivi_txt(rubrica)
 elif args_parser.lista_invertita:
     lista_invertita()
 elif args_parser.nome:
