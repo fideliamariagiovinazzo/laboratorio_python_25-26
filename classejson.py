@@ -7,9 +7,8 @@
 #
 # Version: 1.0
 #
-# Description: Classe Rubrica per la gestione di una collezione di contatti,
-#              con lettura/scrittura da/verso file JSON o testo (CSV semplice).
-#
+# Description: Classe Rubrica per la gestione di una collezione di contatti; definizione mediante file json
+#   
 import json  # Modulo per leggere e scrivere file in formato JSON
 
 
@@ -17,53 +16,44 @@ class Rubrica:
     """Classe che gestisce una collezione di contatti."""
 
     def __init__(self, dizionario=None):
-        """
-        Inizializza la rubrica con un dizionario, oppure a None se non è ancora stata aperta.
-
-        Args:
-            dizionario (dict or None): dizionario {nome: info_contatto} iniziale.
-                Se None, la rubrica è considerata "non aperta".
-        """
+       
+        """Inizializza la rubrica con un dizionario, oppure a None se non è ancora stata aperta."""
         # Se viene passato esplicitamente None, la rubrica è considerata "non aperta"
         self.contatti = dizionario
 
     @classmethod
     def da_json(cls, nome_file):
-        """
-        Metodo di classe per creare una rubrica leggendo i dati da un file JSON.
-
-        Args:
-            nome_file (str): percorso del file JSON da leggere.
-
-        Returns:
-            Rubrica: nuova istanza inizializzata con i dati letti dal file.
-        """
-        with open(nome_file, 'r') as f:   # context manager per la lettura di un file json
-            data = json.load(f)           # carica il contenuto del file JSON in un dizionario Python
-        return cls(data)                  # costruisce e restituisce una nuova Rubrica con quei dati
+       
+        """Metodo di classe per creare una rubrica leggendo i dati da un file JSON."""
+        with open(nome_file, 'r') as f:  
+         # context manager per la lettura di un file json
+            data = json.load(f)         
+        # carica il contenuto del file JSON in un dizionario Python
+        return cls(data)                 
+         # costruisce e restituisce una nuova Rubrica con quei dati
 
     @classmethod
     def da_testo(cls, nome_file):
         """
         Metodo di classe per creare una rubrica leggendo i dati da un file di testo
         (una riga per contatto, campi separati da virgola).
-
-        Args:
-            nome_file (str): percorso del file di testo da leggere.
-
-        Returns:
-            Rubrica: nuova istanza inizializzata con i dati letti dal file.
         """
         data = {}  # dizionario che conterrà tutti i contatti letti dal file
-        with open(nome_file, 'r') as f:   # context manager per la lettura del file di testo
-            for riga in f:                # scorre il file riga per riga
-                riga = riga.strip()       # rimuove spazi/ritorni a capo iniziali e finali
+        with open(nome_file, 'r') as f:   
+        # context manager per la lettura del file di testo
+            for riga in f:               
+         # scorre il file riga per riga
+                riga = riga.strip()     
+         # rimuove spazi/ritorni a capo iniziali e finali
                 if not riga:
                     continue              # salta le righe vuote
 
-                # Esempio formato: Paolino Paperino, 9, giugno, 1934, 93, M, paolino.paperin0@disney.org
-                parti = [p.strip() for p in riga.split(',')]  # spezza la riga in campi e rimuove gli spazi
-                if len(parti) >= 7:  # verifica che ci siano tutti e 7 i campi attesi (indici da 0 a 6)
+            
+                parti = [p.strip() for p in riga.split(',')] 
+         
+        # spezza la riga usando come separatore , e rimuove gli spazi
+                if len(parti) >= 7:  
+        # verifica che ci siano tutti e 7 i campi attesi (indici da 0 a 6)
                     nome = parti[0]  # il primo campo è il nome e cognome, usato come chiave
                     data[nome] = {
                         'giorno': int(parti[1]),  # converte il giorno in intero
