@@ -1,5 +1,5 @@
 #
-# File: rubrica.json_opzioni.py
+# File: rubricajson_opzioni.py
 #
 # Author: F. M. Giovinazzo
 #
@@ -10,13 +10,25 @@
 # Description: Programma interattivo che usa la classe Rubrica per gestire
 #              una rubrica di contatti (apertura, aggiunta, rimozione, stampa, salvataggio).
 #
-from classe_json import Rubrica  # importa la classe Rubrica definita in classe_json.py
+from classejson import Rubrica   
+ # importa la classe Rubrica definita in classe_json.py
 
 
 def esegui():
     """Programma interattivo per gestire la rubrica tramite un menu testuale a comandi."""
-    mia_rubrica = Rubrica(dizionario=None)  # crea una rubrica non ancora aperta (dizionario=None)
-
+    mia_rubrica = Rubrica  ({'Paolino Paperino': {
+        'giorno': 9, 'mese': 'giugno', 'anno': 1934, 'età': 93, 'sesso': 'M', 'mail': 'paolino.paperin0@disney.org'
+    },
+    'Ron Weasley': {
+        'giorno': 1, 'mese': 'marzo', 'anno': 1980, 'età': 46, 'sesso': 'M', 'mail': 'ron_weasley80@hogwards.uk'
+    },
+    'Ramona Flowers': {
+        'giorno': 19, 'mese': 'ottobre', 'anno': 2004, 'età': 22, 'sesso': 'F', 'mail': 'ramona.fls@gmail.com'
+    },
+    'Madoka Ayukawa': {
+        'giorno': 25, 'mese': 'maggio', 'anno': 1969, 'età': 57, 'sesso': 'F', 'mail': 'madoka_sax@asahi_net.jp'
+    }
+})
     while True:  # ciclo principale del menu, continua finché l'utente non digita EXIT
         comando = input(
             "\nInserisci operazione (APRI, AGGIUNGI, RIMUOVI, SALVA, STAMPA) o EXIT: "
