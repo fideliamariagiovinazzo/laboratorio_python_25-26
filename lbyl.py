@@ -16,16 +16,15 @@ import random
 
 
 def carica_parole(percorso_file):
-    """
-    Carica l'elenco delle parole disponibili da un file JSON
-    Returns:
-        list: lista delle parole contenute nella chiave "parole" del file.
-    """
+    
+    """Carica l'elenco delle parole disponibili da un file JSON"""
+    
     with open(percorso_file, 'r') as in_file:  
     # apre il file in lettura (context manager: si chiude da solo)
         data = json.load(in_file)              
     return data["parole"]                     
     # restituisce solo la lista delle parole
+    #utilizzo percorso_file inmodo da poter riutilizzare la funzione con file diversi
 
 dati_iniziali = {
     "parole": ["lollipop", "impiccato", "penitente", "lilla", "fiorellino", "ecclesiastico", "parigi", "portinaia"]
@@ -42,13 +41,8 @@ print("Parole caricate correttamente:", parole_caricate)
 
 def mostra_stato_lbyl(parola, lettere_indovinate):
     """
-    Costruisce la rappresentazione testuale della parola, mostrando le lettere
+    Costruisce la rappresentazione della parola, mostrando le lettere
     già indovinate e un trattino basso per quelle ancora nascoste.
-
-    Args:
-        parola (str): la parola da indovinare.
-        lettere_indovinate (set): insieme delle lettere correttamente indovinate finora.
-
     Returns:
         str: stringa con lettere e trattini separati da spazio (es. "_ a _ a").
     """
@@ -66,10 +60,9 @@ def mostra_stato_lbyl(parola, lettere_indovinate):
      # rimuove lo spazio finale in eccesso
 
 def gioca_lbyl():
-    """
-    Avvia una partita interattiva al gioco dell'impiccato, gestendo gli errori
-    con approccio LBYL """
-    print("\n-GIOCO DELL'IMPICCATO (LBYL)")
+    
+    """Avvia una partita interattiva al gioco dell'impiccato"""
+    print("\n-GIOCO DELL'IMPICCATO ")
     try:
         parole = carica_parole('parole.json')  
     # tenta di caricare le parole disponibili
@@ -142,4 +135,5 @@ def gioca_lbyl():
         print(f"\nHai terminato i tentativi! La parola era: {parola}")
 
 if __name__ == "__main__":
-    gioca_lbyl()  # avvia la partita quando lo script viene eseguito direttamente
+    gioca_lbyl()  
+# avvia la partita quando lo script viene eseguito direttamente
