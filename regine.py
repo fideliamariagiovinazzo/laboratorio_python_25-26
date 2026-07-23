@@ -5,7 +5,7 @@
 #
 # Date: 18/06/2026
 #
-# Version: 3.4
+# Version: 3.5
 #
 # Description: Progetto che risolve con approccio brute force il problema delle regine.
 #
@@ -94,8 +94,7 @@ def main_regine(n, s):
         print(f"Lista tentativi per soluzione: {tentativi_soluzioni}")  
         print(f"Totale duplicati scartati: {totale_duplicati}")  
         
-        # LISTA 1: OCCORRENZE UNICHE (trovate esattamente 1 volta)
-        print("\n--- LISTA 1: OCCORRENZE UNICHE (Trovate 1 sola volta) ---")
+        print("\n LISTA 1: OCCORRENZE UNICHE (Trovate 1 sola volta) ")
         uniche_trovate = False
         for sol, cont in registro_soluzioni.items():  
             if cont == 1:
@@ -104,8 +103,7 @@ def main_regine(n, s):
         if not uniche_trovate:
             print(" > Nessuna soluzione è rimasta unica (tutte ripetute).")
 
-    
-        print("\n 2: LISTA OCCORRENZE DUPLICATE (Trovate più di 1 volta) ")
+        print("\n LISTA 2: OCCORRENZE DUPLICATE (Trovate più di 1 volta) ")
         duplicati_trovati = False
         for sol, cont in registro_soluzioni.items():  
             if cont > 1:
@@ -133,7 +131,7 @@ if __name__ == "__main__":
     soluzioni_base = main_regine(8, 10) 
     
     # 5) Test di velocità e limiti (timeout 15s)
-    print("\n TEST DI VELOCITÀ E LIMITI (TIMEOUT 15s)")  
+    print("\n TEST DI VELOCITÀ E LIMITI (TIMEOUT 15s) ")  
     lato_n = 8  
     ultimo_lato_valido = 8  
     while True:  
@@ -148,11 +146,13 @@ if __name__ == "__main__":
             print("TIMEOUT (> 15s)")
             break  
             
-    print(f"\n Dimensione massima calcolata in 15s: N={ultimo_lato_valido}")  
+    print(f"\n[!] Dimensione massima calcolata in 15s: N={ultimo_lato_valido}")  
     
     # 6, 7) Test delle rotazioni geometriche per 5 soluzioni uniche su scacchiera 8x8
     print("\n TEST DELLE ROTAZIONI (5 SOLUZIONI UNICHE 8x8) ")  
     soluzioni_simmetria = main_regine(8, 5)  
+    
+    # QUI VENIVA RICHIAMATO UN SECONDO PRINT REDOUNTANTE CHE ORA È RIMOSSO
     if soluzioni_simmetria:  
         print("\nCalcolo delle 4 rotazioni per ogni soluzione:")  
         for idx, sol in enumerate(soluzioni_simmetria):                     
