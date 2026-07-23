@@ -18,8 +18,7 @@ def tabellina(n):
     """
     Generatore infinito che produce i multipli di un numero intero n 
     partendo da n * 0, n * 1, n * 2 e così via.    
-    Yields:
-        int: Il valore corrente della tabellina.
+    Yields: int: Il valore corrente della tabellina.
     """
     i = 0
     while True:
@@ -28,10 +27,9 @@ def tabellina(n):
 
 # 2. Funzione principale del gioco
 def gioca():
-    """
-    Gestisce la logica principale del gioco interattivo delle tabelline,
-    validando l'input dell'utente e gestendo l'avanzamento tramite il generatore.
-    """
+  
+    """Gestisce la logica principale del gioco interattivo delle tabelline,validando l'input dell'utente e gestendo l'avanzamento tramite il generatore."""
+    
     numero = random.randint(1, 10)  # numero casuale della tabellina
     g = tabellina(numero)          # Creazione dell'istanza del generatore
     valore_corrente = next(g)
