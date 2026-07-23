@@ -5,12 +5,12 @@
 #
 # Date: 18/06/2026
 #
-# Version: 3.0
+# Version: 3.1
 #
 # Description: Progetto che risolve con approccio brute force il problema delle 8 regine.
 #
 import random 
- # Modulo per la generazione di permutazioni casuali
+# Modulo per la generazione di permutazioni casuali
 import time    
 # Modulo per il monitoraggio del timeout di 15 secondi e il calcolo dei tempi
 
@@ -192,7 +192,7 @@ def main_regine(n, s):
             # Reset per la ricerca della soluzione successiva
             start_time = time.time() 
             tentativi = 0 
-    # COMPILAZIONE E STAMPA DEL REPORT STATISTICO FINALE
+    # COMPILAZIONE E STAMPA DEL REPORT FINALE
     if tempi_soluzioni: 
      # Esegue il report solo se è stata trovata almeno una soluzione
         tempo_medio = sum(tempi_soluzioni) / len(tempi_soluzioni)  
@@ -212,44 +212,59 @@ def main_regine(n, s):
             print(f" > Soluzione {sol} riprodotta complessivamente {cont} volte")  
     # Stampa quante volte è stata ritrovata la soluzione
             
-    return list(registro_soluzioni.keys())  #
-     Restituisce l'insieme delle soluzioni uniche
+    return list(registro_soluzioni.keys())  
+     #Restituisce l'insieme delle soluzioni uniche
+
+
+def trova_una_soluzione(n, timeout=15.0):
+    """
+    Cerca una singola soluzione per la scacchiera N x N usando la forza bruta 
+    casuale senza stampe intermedie. Ritorna True se la trova entro il timeout, False altrimenti.
+    """
+    start_time = time.time()
+    lista_soluzione = list(range(n))
+    
+    while True:
+        if time.time() - start_time > timeout:
+            return False
+        
+        random.shuffle(lista_soluzione)
+        
+        if soluzione_corretta(lista_soluzione):
+            return True
+
 
 if __name__ == "__main__":
     # Verifica di base (N=8)
-    # Controlliamo che il programma trovi le soluzioni su una scacchiera classica.
     print("[PHASE 1] TEST DI FUNZIONAMENTO (N=8, TARGET=10)")  
-    # Messaggio introduttivo della fase 1
     soluzioni_base = main_regine(8, 10) 
-     # Esegue la ricerca di 10 soluzioni uniche per N=8
     
-    # Fase 2: Test di velocità (limite 15 secondi)
-    # Proviamo a risolvere scacchiere sempre più grandi finché il computer ci mette troppo tempo.
-    print("\n TEST DI VELOCITÀ E LIMITI =")  # Messaggio introduttivo della fase 2
-    lato_n = 8  # Dimensione di partenza della scacchiera da testare
-    ultimo_lato_valido = 8  # Memorizza l'ultima dimensione N risolta con successo entro il timeout
-    while True:  # Ciclo infinito interrotto manualmente al raggiungimento del timeout
-        # Tentiamo di trovare almeno una soluzione per la dimensione N corrente
-        risultato = main_regine(lato_n, 1)  # Cerca una singola soluzione per la dimensione corrente
-        if risultato is not None:
-            # Se la trova, ricordiamo il valore e proviamo con una più grande
-            ultimo_lato_valido = lato_n  # Aggiorna l'ultima dimensione risolta con successo
-            lato_n += 1  # Incrementa la dimensione della scacchiera per il prossimo tentativo
+    # Fase 2: Test di velocità pulito (limite 15 secondi)
+    print("\n=== TEST DI VELOCITÀ E LIMITI (TIMEOUT 15s) ===")  
+    lato_n = 8  
+    ultimo_lato_valido = 8  
+    while True:  
+        print(f"Test in corso per N = {lato_n}...", end=" ", flush=True)
+        trovato = trova_una_soluzione(lato_n, timeout=15.0)
+        
+        if trovato:
+            print("OK (< 15s)")
+            ultimo_lato_valido = lato_n  
+            lato_n += 1  
         else:
-            # Se si ferma, abbiamo raggiunto il limite
-            break  # Esce dal ciclo perché è scattato il timeout
-    print(f"\n[!] Dimensione massima calcolata in 15s: N={ultimo_lato_valido}")  # Stampa il risultato finale della fase 2
+            print("TIMEOUT (> 15s)")
+            break  
+            
+    print(f"\n[!] Dimensione massima calcolata in 15s: N={ultimo_lato_valido}")  
     
-    #  Test delle rotazioni geometriche
-    # Verifichiamo che le funzioni per ruotare la scacchiera funzionino correttamente.
-    # Costruiamo le 4 soluzioni simmetriche (0°, 90°, 180°, 270°) per ogni caso.
-    print("\nTEST DELLE ROTAZIONI")  # Messaggio introduttivo della fase 3
-    soluzioni_simmetria = main_regine(8, 5)  # Cerca 5 soluzioni uniche da usare come base per i test di rotazione
-    if soluzioni_simmetria:  # Prosegue solo se sono state effettivamente trovate delle soluzioni
-        print("\nCalcolo delle 4 rotazioni per ogni soluzione:")  # Intestazione del blocco di stampa delle rotazioni
-        for idx, sol in enumerate(soluzioni_simmetria):                     # scorro gli indici e le soluzioni e individuo elemento della lista e indice grazie alla funzione enumerate
-            print(f"\n[Soluzione {idx+1}]")  # Stampa il numero progressivo della soluzione analizzata
-            print(f"           Originale (0°) : {sol}")  # Stampa la configurazione originale senza rotazione
-            print(f"           Ruotata 90°    : {ruota_90(sol)}")  # Calcola e stampa la rotazione di 90°
-            print(f"           Ruotata 180°   : {ruota_180(sol)}")  # Calcola e stampa la rotazione di 180°
-            print(f"           Ruotata 270°   : {ruota_270(sol)}")  # Calcola e stampa la rotazione di 270°
+    # Test delle rotazioni geometriche
+    print("\n=== TEST DELLE ROTAZIONI ===")  
+    soluzioni_simmetria = main_regine(8, 5)  
+    if soluzioni_simmetria:  
+        print("\nCalcolo delle 4 rotazioni per ogni soluzione:")  
+        for idx, sol in enumerate(soluzioni_simmetria):                     
+            print(f"\n[Soluzione {idx+1}]")  
+            print(f"           Originale (0°) : {sol}")  
+            print(f"           Ruotata 90°    : {ruota_90(sol)}")  
+            print(f"           Ruotata 180°   : {ruota_180(sol)}")  
+            print(f"           Ruotata 270°   : {ruota_270(sol)}")
