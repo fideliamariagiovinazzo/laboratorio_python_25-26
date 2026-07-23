@@ -4,7 +4,7 @@
 #Date: 24/06/2026
 #Version: 2.3 
 #Description: Gioco Rock, Paper, Scissors, Lizard, Spock (RPSLS) che tiene traccia del punteggio e assegna premi
-
+#
 
 
 import random          
