@@ -59,7 +59,7 @@ def scrivi_json(rubrica_input):
     # Utilizza il context manager 'with' per aprire il file JSON in scrittura ('w'), 
     # garantendo la chiusura automatica del file alla fine dell'operazione
     with open('rubrica.json', 'w') as write_file:
-         # Converte il dizionario Python in formato JSON e lo scrive nel file con una indentazione di 4 spazi per la leggibilità
+    # Converte il dizionario Python in formato JSON e lo scrive nel file con una indentazione di 4 spazi per la leggibilità
          json.dump(rubrica_input, write_file, indent=4)
          
     print("File 'rubrica.json' generato con successo!")

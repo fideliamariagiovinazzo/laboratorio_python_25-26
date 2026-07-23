@@ -107,7 +107,6 @@ class Rubrica:
             print(f"Il contatto {nome} non esiste in rubrica")
         else:
             dati = self.contatti[nome]  # recupera il dizionario di informazioni del contatto
-            # Formattazione come nell'esercizio 3
             stringa_out = f"'{nome}', "  # inizia la stringa di output con il nome tra apici
             for chiave in dati:  # scorre ogni campo del contatto
                 if chiave in ['mese', 'sesso', 'mail']:

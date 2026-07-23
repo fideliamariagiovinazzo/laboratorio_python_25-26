@@ -42,7 +42,7 @@ def incrocia_colonne(posizioni, col):
     return False 
      # La posizione è sicura rispetto alle regine precedenti
 
-def soluzione_ok(soluzione_posizioni):
+def soluzione_corretta(soluzione_posizioni):
     """
     Scansiona l'intera scacchiera per verificare la validità globale della soluzione.
     Essendo basata su permutazioni, i controlli su righe e colonne sono impliciti.    
@@ -65,16 +65,16 @@ def soluzione_ok(soluzione_posizioni):
     # regina minaccia le altre. Restituisce True: la configurazione è una soluzione valida.
 
 def ruota_90(soluzione):
-    """
-    Esegue una rotazione di 90 gradi in senso orario della scacchiera delle regine.
-    Returns:
-        list: Nuova lista con le posizioni ruotate di 90 gradi.
-    """
+   
+    """Esegue una rotazione di 90 gradi in senso orario della scacchiera delle regine."""
+    
   
     nuova_soluzione = []
-    N = len(soluzione)  # Memorizza la dimensione N della scacchiera (numero di regine)
+    N = len(soluzione)  
+    # Memorizza la dimensione N della scacchiera (numero di regine)
     
-    # Costruisce il nuovo vettore di stato sequenzialmente usando il metodo append().
+    # Costruisce il nuovo vettore usando il metodo append()-> scelgo come colonna la 
+    #posizione dell'elemento nella lista e come riga il numero al suo interno
     # Itera sulle nuove colonne (da 0 a N-1) per generare le coordinate ruotate.
     for nuv_col in range(N):
         # Individua la riga in cui si trovava la regina nella disposizione originale.
@@ -82,10 +82,13 @@ def ruota_90(soluzione):
         vecchia_riga = soluzione.index(nuv_col)
         
         # Calcola la rotazione: inverte l'asse e aggiunge il valore calcolato in coda alla lista.
-        nuova_riga = N - 1 - vecchia_riga  # Inversione dell'asse per ottenere la rotazione di 90°
-        nuova_soluzione.append(nuova_riga)  # Aggiunge la nuova posizione calcolata alla lista risultato
+        nuova_riga = N - 1 - vecchia_riga  
+        # Inversione dell'asse per ottenere la rotazione di 90°
+        nuova_soluzione.append(nuova_riga)  
+        # Aggiunge la nuova posizione calcolata alla lista risultato
         
-    return nuova_soluzione  # Restituisce la configurazione ruotata di 90°
+    return nuova_soluzione  
+    # Restituisce la configurazione ruotata di 90°
 
 def ruota_180(soluzione):
    
@@ -94,14 +97,17 @@ def ruota_180(soluzione):
     
     # Inizializza una lista vuota per contenere lo stato ruotato
     nuova_soluzione = []
-    N = len(soluzione)  # Memorizza la dimensione N della scacchiera
+    N = len(soluzione) 
+     # Memorizza la dimensione N della scacchiera
     
     # Itera la lista originale al contrario (inversione delle righe) usando reversed()
     for col in reversed(soluzione):
-        # Specchia le coordinate (inversione delle colonne) e aggiunge in coda
-        nuova_soluzione.append(N - 1 - col)  # Calcola e inserisce la coordinata specchiata
+        # Specchia le coordinate (inversione delle colonne-> orizzontalmente) 
+        nuova_soluzione.append(N - 1 - col)  
+    # Calcola e inserisce la coordinata specchiata
         
-    return nuova_soluzione  # Restituisce la configurazione ruotata di 180°
+    return nuova_soluzione  
+    #Restituisce la configurazione ruotata di 180°
 
 def ruota_270(soluzione):
     """
@@ -117,31 +123,35 @@ def main_regine(n, s):
     """
     Risolve il problema delle N-Regine tramite approccio Brute-Force statistico.
     Cerca 's' soluzioni uniche, monitora i duplicati e gestisce il timeout di 15 secondi.
-    
-    Args:
-        n (int): Dimensione della scacchiera (N x N).
-        s (int): Numero di soluzioni uniche richieste.
-        
-    Returns:
-        list or None: Lista delle soluzioni uniche trovate sotto forma di tuple, oppure None se scatta il timeout.
     """
-    random_generator = random.Random()                              # Inizializzazione dell'oggetto Random per la generazione casuale
+    random_generator = random.Random()                           
+    # Inizializzazione dell'oggetto Random per la generazione casuale di un numero decimale da 0 a 10
                                        
-    tempi_soluzioni = []      # Memorizza il tempo impiegato per ogni soluzione unica
-    tentativi_soluzioni = []  # Memorizza il numero di tentativi per ogni soluzione unica
-    registro_soluzioni = {}   # Dizionario per il tracking delle soluzioni uniche e conteggio duplicati
+    tempi_soluzioni = []     
+     # Memorizza il tempo impiegato per ogni soluzione unica
+    tentativi_soluzioni = []  
+    # Memorizza il numero di tentativi per ogni soluzione unica
+    registro_soluzioni = {}  
+     # Dizionario per il tracking delle soluzioni uniche e conteggio duplicati
     
-    soluzioni_trovate = 0     # Contatore delle soluzioni uniche validate
-    tentativi = 0             # Contatore dei tentativi per la soluzione corrente
-    start_time = time.time()  # Registrazione del timestamp iniziale della ricerca
+    soluzioni_trovate = 0    
+     # Contatore delle soluzioni uniche validate
+    tentativi = 0            
+     # Contatore dei tentativi per la soluzione corrente
+    start_time = time.time() 
+     # Registrazione del tempo al momento inziale della ricerca-> time.time serve a ottenre il timestamp corrente
     
-    while soluzioni_trovate < s:  # Il ciclo prosegue fino al raggiungimento del numero richiesto di soluzioni uniche
+    while soluzioni_trovate < s:  
+    # Il ciclo prosegue fino al raggiungimento del numero richiesto di soluzioni uniche
         
-        # APPLICAZIONE DELLE PERMUTAZIONI CASUALI VIA SHUFFLE
-        lista_soluzione = list(range(n))          # Genera la lista iniziale ordinata (es: [0, 1, 2, ..., n-1])
-        random_generator.shuffle(lista_soluzione) # Genera una permutazione casuale (mescolamento)
+      
+        lista_soluzione = list(range(n))     
+    # Genera la lista iniziale ordinata
+        random_generator.shuffle(lista_soluzione) 
+    # Genera una permutazione casuale (mescolamento)
         
-        tentativi += 1  # Incrementa il contatore dei tentativi effettuati
+        tentativi += 1 
+     # Incrementa il contatore dei tentativi effettuati
         
         # controllo che la ricerca delle soluzioni non duri più di 15 secondi -> timeout
         if time.time() - start_time > 15.0:
@@ -149,49 +159,69 @@ def main_regine(n, s):
             return None  # Interruzione forzata dell'algoritmo
             
         # Verifica geometrica della permutazione casuale generata
-        if soluzione_ok(lista_soluzione):
-            scacchiera_tupla = tuple(lista_soluzione)  # Converte in tupla per renderla chiave immutabile del dizionario
-            tempo_impiegato = time.time() - start_time   # Calcola il delta temporale
+        if soluzione_corretta(lista_soluzione):
+            scacchiera_tupla = tuple(lista_soluzione)  
+        # Converte in tupla per renderla chiave immutabile del dizionario
+            tempo_impiegato = time.time() - start_time  
+         # Calcola il delta temporale
             
             # GESTIONE DEI DUPLICATI 
             if scacchiera_tupla in registro_soluzioni:
-                registro_soluzioni[scacchiera_tupla] += 1  # Incrementa il contatore dei duplicati
-                start_time = time.time()  # Resetta il timer per il prossimo tentativo
-                tentativi = 0             # Resetta il contatore dei tentativi
-                continue                  # Salta al tentativo successivo per cercare una nuova soluzione
+                registro_soluzioni[scacchiera_tupla] += 1  
+        # Incrementa il contatore dei duplicati
+                start_time = time.time()  
+        # Resetta il timer per il prossimo tentativo
+                tentativi = 0             
+        # Resetta il contatore dei tentativi
+                continue                  
+        # Salta al tentativo successivo per cercare una nuova soluzione
                 
             # GESTIONE DI UNA SOLUZIONE UNICA
-            registro_soluzioni[scacchiera_tupla] = 1  # Registra la nuova soluzione nel dizionario
-            tempi_soluzioni.append(tempo_impiegato)   # Salva il tempo impiegato
-            tentativi_soluzioni.append(tentativi)     # Salva i tentativi accumulati
-            soluzioni_trovate += 1                    # Avanza nel contatore delle soluzioni uniche
+            registro_soluzioni[scacchiera_tupla] = 1  
+        # Registra la nuova soluzione nel dizionario
+            tempi_soluzioni.append(tempo_impiegato)  
+         # Salva il tempo impiegato
+            tentativi_soluzioni.append(tentativi)     
+        # Salva i tentativi accumulati
+            soluzioni_trovate += 1                  
+         # Avanza nel contatore delle soluzioni uniche
             
             # Output in tempo reale della soluzione individuata
             print(f"Sol{soluzioni_trovate}(N={n}): {lista_soluzione} in {tempo_impiegato:.5f}s con {tentativi} tentativi")
             
-            # Reset delle metriche di sessione per la ricerca della soluzione successiva
-            start_time = time.time()  # Riavvia il cronometro per la prossima ricerca
-            tentativi = 0  # Azzera il conteggio dei tentativi per la prossima ricerca
-            
+            # Reset per la ricerca della soluzione successiva
+            start_time = time.time() 
+            tentativi = 0 
     # COMPILAZIONE E STAMPA DEL REPORT STATISTICO FINALE
-    if tempi_soluzioni:  # Esegue il report solo se è stata trovata almeno una soluzione
-        tempo_medio = sum(tempi_soluzioni) / len(tempi_soluzioni)  # Calcola il tempo medio impiegato per soluzione unica
-        totale_duplicati = sum(valore - 1 for valore in registro_soluzioni.values())  # Somma tutte le occorrenze duplicate scartate
-        print(f"\nSTATISTICHE FINALI (N={n})")  # Intestazione del report statistico
-        print(f"Tempo medio per soluzione unica: {tempo_medio:.5f}s")  # Stampa il tempo medio calcolato
-        print(f"Lista tentativi per soluzione: {tentativi_soluzioni}")  # Stampa il dettaglio dei tentativi per ogni soluzione
-        print(f"Totale duplicati scartati: {totale_duplicati}")  # Stampa il totale dei duplicati incontrati
-        print("Dettaglio occorrenze soluzioni uniche:")  # Intestazione del dettaglio per singola soluzione
-        for sol, cont in registro_soluzioni.items():  # Scorre ogni soluzione unica registrata insieme al suo conteggio
-            print(f" > Soluzione {sol} riprodotta complessivamente {cont} volte")  # Stampa quante volte è stata ritrovata la soluzione
+    if tempi_soluzioni: 
+     # Esegue il report solo se è stata trovata almeno una soluzione
+        tempo_medio = sum(tempi_soluzioni) / len(tempi_soluzioni)  
+    # Calcola il tempo medio impiegato per soluzione unica
+        totale_duplicati = sum(valore - 1 for valore in registro_soluzioni.values())  
+    # Somma tutte le occorrenze duplicate scartate
+        print(f"\nSTATISTICHE FINALI (N={n})") 
+        print(f"Tempo medio per soluzione unica: {tempo_medio:.5f}s")  
+    # Stampa il tempo medio calcolato
+        print(f"Lista tentativi per soluzione: {tentativi_soluzioni}")  
+    # Stampa il dettaglio dei tentativi per ogni soluzione
+        print(f"Totale duplicati scartati: {totale_duplicati}")  
+    # Stampa il totale dei duplicati incontrati
+        print("Dettaglio occorrenze soluzioni uniche:") 
+        for sol, cont in registro_soluzioni.items():  
+    # Scorre ogni soluzione unica registrata insieme al suo conteggio
+            print(f" > Soluzione {sol} riprodotta complessivamente {cont} volte")  
+    # Stampa quante volte è stata ritrovata la soluzione
             
-    return list(registro_soluzioni.keys())  # Restituisce l'insieme delle soluzioni uniche
+    return list(registro_soluzioni.keys())  #
+     Restituisce l'insieme delle soluzioni uniche
 
 if __name__ == "__main__":
     # Verifica di base (N=8)
     # Controlliamo che il programma trovi le soluzioni su una scacchiera classica.
-    print("[PHASE 1] TEST DI FUNZIONAMENTO (N=8, TARGET=10)")  # Messaggio introduttivo della fase 1
-    soluzioni_base = main_regine(8, 10)  # Esegue la ricerca di 10 soluzioni uniche per N=8
+    print("[PHASE 1] TEST DI FUNZIONAMENTO (N=8, TARGET=10)")  
+    # Messaggio introduttivo della fase 1
+    soluzioni_base = main_regine(8, 10) 
+     # Esegue la ricerca di 10 soluzioni uniche per N=8
     
     # Fase 2: Test di velocità (limite 15 secondi)
     # Proviamo a risolvere scacchiere sempre più grandi finché il computer ci mette troppo tempo.
