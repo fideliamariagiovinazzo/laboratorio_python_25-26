@@ -14,7 +14,10 @@ import time
 
 
 def stessa_diagonale(x0, y0, x1, y1):
-    return abs(y1 - y0) == abs(x1 - x0)                     
+    dy = abs(y1-y0)
+    dx = abs(x1-x0)
+
+    return dx == dy                    
 
 def incrocia_colonne(posizioni, col):
     for c in range(col):                         
