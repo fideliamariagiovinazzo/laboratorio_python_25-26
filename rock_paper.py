@@ -162,7 +162,7 @@ def main():
     # Acquisizione sicura del numero di round desiderati con gestione errori
     while True:
         try:
-            num_round = int(input("Quante partite vuoi giocare in totale? "))  # casting a intero
+            num_round = int(input("Quante partite vuoi giocare in totale? ")) 
             if num_round <= 0:
                 print("Inserisci un numero maggiore di zero.")
                 continue  
